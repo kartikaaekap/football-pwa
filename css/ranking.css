@@ -1,0 +1,15 @@
+.row h1{
+    font-size: 50px;
+    font-weight: bold;
+    color: #0D47A1;
+    text-align: center;
+    font-family: 'Georgia', Times New Roman, Times, serif;
+    margin-top: 2cm;
+    margin-bottom: 1cm;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .row h1{
+      font-size: 30px;
+    }
+  }
