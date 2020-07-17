@@ -43,7 +43,6 @@ self.addEventListener("fetch", function(event) {
             })
         )
     }
-  });
   self.addEventListener('activate', function(event) {
     console.log('Aktivasi service worker baru');
     event.waitUntil(
