@@ -261,22 +261,24 @@ function getSavedTeams() {
   getAll().then(function(data) {
     console.log(data);
     // Menyusun komponen card artikel secara dinamis
-    var teamHTML = `
-        <div class="row">
-          <h4 class="light center grey-text text-darken-3" style="font-size:40px; font-weight:bold;"><img style="width:90px;" src="${data.crestUrl}"> <br>${data.name}</h4>
-                <p align="center">Nickname : ${data.shortName}<br>Address : ${data.address}<br>Founded : ${data.founded}<br>Club Colors : ${data.clubColors}<br>Venue : ${data.venue}</p>
-            <div class="col s12 m6 l6">
-              <div class="card-panel center" style="background-color: #0D47A1; color: white;">
-              <h5 style="font-weight:bold;">COMPETITIONS</h5>
-                <p>
-                    <ul>
-          `;
-          data.activeCompetitions.forEach(function(item) {
-          teamHTML += `
-                    <li>${item.name}</li>
-                      `;
-          });
-          teamHTML += `
+    var teamsHTML = "";
+    teams.forEach(function(data) {
+      teamsHTML += `
+                  <div class="row">
+                    <h4 class="light center grey-text text-darken-3" style="font-size:40px; font-weight:bold;"><img style="width:90px;" src="${data.crestUrl}"> <br>${data.name}</h4>
+                          <p align="center">Nickname : ${data.shortName}<br>Address : ${data.address}<br>Founded : ${data.founded}<br>Club Colors : ${data.clubColors}<br>Venue : ${data.venue}</p>
+                      <div class="col s12 m6 l6">
+                        <div class="card-panel center" style="background-color: #0D47A1; color: white;">
+                        <h5 style="font-weight:bold;">COMPETITIONS</h5>
+                          <p>
+                              <ul>
+                `;
+      data.activeCompetitions.forEach(function(item) {
+      teamsHTML += `
+                <li>${item.name}</li>
+                  `;
+      });
+      teamsHTML += `
                     </ul>
                   </p>
                 </div>
@@ -294,19 +296,22 @@ function getSavedTeams() {
                 <tbody>
                       `;
           data.squad.forEach(function(item) {
-          teamHTML += `
+          teamsHTML += `
                     <tr>
                     <td>${item.name}</td>
                     <td>${item.position}</td>
                     </tr>
                       `;
           });
-          teamHTML += `
-
+          teamsHTML += `
               </div>
             </div>
           </div>
                       `;
-        document.getElementById("body-content").innerHTML = teamHTML;
+
+    });
+    // Sisipkan komponen card ke dalam elemen dengan id #body-content
+    document.getElementById("body-content").innerHTML = teamsHTML;
   });
 }
+

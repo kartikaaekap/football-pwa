@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
           if(page=== "ranking"){
             getStandings();
-          } else if (page === "saved") {
+          } else if (page === "favorite") {
             getSavedTeams();
           }
           if (this.status == 200) {
