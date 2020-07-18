@@ -18,6 +18,8 @@ var urlsToCache = [
   "/js/idb.js",
   "/manifest.json",
   "/images/background.jpg",
+  "/images/notif.png",
+  "/icon.png",
   "https://fonts.googleapis.com/icon?family=Material+Icons"
 ];
  
