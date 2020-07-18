@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function loadPage(page) {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
+        if (page === "ranking") {
+          getStandings();
+        }
           if (this.readyState == 4) {
           var content = document.querySelector("#body-content");
 

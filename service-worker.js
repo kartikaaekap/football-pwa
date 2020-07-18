@@ -16,6 +16,7 @@ var urlsToCache = [
   "/js/nav.js",
   "/js/db.js",
   "/js/idb.js",
+  "/manifest.json",
   "/images/background.jpg",
   "https://fonts.googleapis.com/icon?family=Material+Icons"
 ];
@@ -28,11 +29,10 @@ self.addEventListener("install", function(event) {
   );
 });
 self.addEventListener("fetch", function(event) {
-  var token = '34122c53c47d4dc39f7ca8cad6b6e149';
   var base_url = "https://api.football-data.org/v2/";
   var request = new Request(base_url + "competitions/2021/standings", {
     headers: new Headers({
-      'X-Auth-Token' : token
+      'X-Auth-Token' : '34122c53c47d4dc39f7ca8cad6b6e149'
     })
   });
   if (event.request.url.indexOf(request) > -1) {
@@ -65,5 +65,26 @@ self.addEventListener("activate", function(event) {
         })
       );
     })
+  );
+});
+
+self.addEventListener('push', function(event) {
+  var body;
+  if (event.data) {
+    body = event.data.text();
+  } else {
+    body = 'Push message no payload';
+  }
+  var options = {
+    body: body,
+    icon: '/images/notif.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    }
+  };
+  event.waitUntil(
+    self.registration.showNotification('Push Notification', options)
   );
 });
