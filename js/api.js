@@ -262,56 +262,36 @@ function getSavedTeams() {
     console.log(data);
     // Menyusun komponen card artikel secara dinamis
     var teamsHTML = "";
-    teams.forEach(function(data) {
+    data.forEach(function(data) {
       teamsHTML += `
-                  <div class="row">
-                    <h4 class="light center grey-text text-darken-3" style="font-size:40px; font-weight:bold;"><img style="width:90px;" src="${data.crestUrl}"> <br>${data.name}</h4>
-                          <p align="center">Nickname : ${data.shortName}<br>Address : ${data.address}<br>Founded : ${data.founded}<br>Club Colors : ${data.clubColors}<br>Venue : ${data.venue}</p>
-                      <div class="col s12 m6 l6">
-                        <div class="card-panel center" style="background-color: #0D47A1; color: white;">
-                        <h5 style="font-weight:bold;">COMPETITIONS</h5>
-                          <p>
-                              <ul>
-                `;
-      data.activeCompetitions.forEach(function(item) {
-      teamsHTML += `
-                <li>${item.name}</li>
-                  `;
-      });
-      teamsHTML += `
-                    </ul>
-                  </p>
+            <div class="row">
+            <div class="col s12 m6 l6">
+              <div class="card">
+                <div class="card-image">
+                  <img src="${data.crestUrl}">
+                  <button class="btn-floating halfway-fab waves-effect waves-light red" id="delete"><i class="material-icons">delete</i></button>
                 </div>
-              </div>
-              <div class="col s12 m6 l6">
-              <div class="card-panel center">
-                <h5 style="font-size:25px; color:blue; font-weight:bold;">SQUAD</h5>
-                <table style="font-size:14px;" class="responsive-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                  </tr>
-                </thead>
-                <tbody>
-                      `;
-          data.squad.forEach(function(item) {
-          teamsHTML += `
-                    <tr>
-                    <td>${item.name}</td>
-                    <td>${item.position}</td>
-                    </tr>
-                      `;
-          });
-          teamsHTML += `
+                <div class="card-content">
+                <span class="card-title" align="center" style="font-weight:bold; margin-bottom:20px; color:#0D47A1;"><u>${data.name}</u></span>
+                <p align="center">Nickname : ${data.shortName}<br>Address : ${data.address}<br>Founded : ${data.founded}<br>Club Colors : ${data.clubColors}<br>Venue : ${data.venue}</p>
+                </div>
               </div>
             </div>
           </div>
-                      `;
+                `;
 
     });
     // Sisipkan komponen card ke dalam elemen dengan id #body-content
     document.getElementById("body-content").innerHTML = teamsHTML;
+    let btn = document.querySelectorAll(".btn-floating");
+           for(let button of btn) {
+               button.addEventListener("click", function (event) {
+                   let id = event.target.id;
+                   dbDeleteTeam(id).then(() => {
+                       getSavedTeams()
+                   })
+               })
+           }
   });
 }
 

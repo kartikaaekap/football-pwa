@@ -31,3 +31,20 @@ var dbPromised = idb.open("football-pwa", 1, function(upgradeDb) {
         });
     });
   }
+
+  const dbDeleteTeam = id => {
+    return new Promise((resolve, reject) => {
+        dbPromised.then(function(db) {
+            const transaction = db.transaction("teams", `readwrite`);
+            transaction.objectStore("teams").delete(id);
+            return transaction;
+        }).then(transaction => {
+            if (transaction.complete) {
+                resolve(true)
+            } else {
+                reject(new Error(transaction.onerror))
+            }
+        })
+    })
+};
+
