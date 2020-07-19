@@ -26,8 +26,12 @@ var dbPromised = idb.open("football-pwa", 1, function(upgradeDb) {
           var store = tx.objectStore("teams");
           return store.getAll();
         })
-        .then(function(team) {
-          resolve(team);
+        .then(team => {
+          if (team !== undefined) {
+              resolve(team)
+          } else {
+              reject(new Error("Favorite not Found"))
+          }
         });
     });
   }
@@ -47,4 +51,6 @@ var dbPromised = idb.open("football-pwa", 1, function(upgradeDb) {
         })
     })
 };
+
+
 

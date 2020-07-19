@@ -20,7 +20,8 @@ var urlsToCache = [
   "/images/background.jpg",
   "/images/notif.png",
   "/icon.png",
-  "https://fonts.googleapis.com/icon?family=Material+Icons"
+  "https://fonts.googleapis.com/icon?family=Material+Icons",
+  "https://fonts.gstatic.com/s/materialicons/v52/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2"
 ];
  
 self.addEventListener("install", function(event) {

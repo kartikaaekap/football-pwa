@@ -265,11 +265,11 @@ function getSavedTeams() {
     data.forEach(function(data) {
       teamsHTML += `
             <div class="row">
-            <div class="col s12 m6 l6">
+            <div class="col s12">
               <div class="card">
                 <div class="card-image">
                   <img src="${data.crestUrl}">
-                  <button class="btn-floating halfway-fab waves-effect waves-light red" id="delete"><i class="material-icons">delete</i></button>
+                  <button class="btn-floating halfway-fab waves-effect waves-light red" id="delete" value="${data.id}"><i class="material-icons">delete</i></button>
                 </div>
                 <div class="card-content">
                 <span class="card-title" align="center" style="font-weight:bold; margin-bottom:20px; color:#0D47A1;"><u>${data.name}</u></span>
@@ -286,7 +286,8 @@ function getSavedTeams() {
     let btn = document.querySelectorAll(".btn-floating");
            for(let button of btn) {
                button.addEventListener("click", function (event) {
-                   let id = event.target.id;
+                   let id = Number(button.value);
+                   console.log(id);
                    dbDeleteTeam(id).then(() => {
                        getSavedTeams()
                    })
