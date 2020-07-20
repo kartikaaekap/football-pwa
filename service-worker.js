@@ -32,28 +32,21 @@ self.addEventListener("install", function(event) {
   );
 });
 self.addEventListener("fetch", function(event) {
-  var base_url = "https://api.football-data.org/v2/";
-  var request = new Request(base_url + "competitions/2021/standings", {
-    headers: new Headers({
-      'X-Auth-Token' : '34122c53c47d4dc39f7ca8cad6b6e149'
-    })
-  });
-  if (event.request.url.indexOf(request) > -1) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(function(cache) {
-        return fetch(event.request).then(function(response) {
-          cache.put(event.request.url, response.clone());
-          return response;
+  event.respondWith(
+    caches.match(event.request).then(function (cached) {
+      if (cached) {
+        return cached
+      }
+
+      return fetch(event.request).then(function(response) {
+        const responseToCahce = response.clone()
+        caches.open(CACHE_NAME).then(function(cache) {
+          cache.put(event.request.url, responseToCahce);
         })
+        return response;
       })
-    );
-  } else {
-    event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then(function(response) {
-            return response || fetch (event.request);
-        })
-    )
-}
+    })
+ );
 });
 
 self.addEventListener("activate", function(event) {

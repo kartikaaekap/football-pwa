@@ -37,53 +37,6 @@ function error(error) {
 
 // Blok kode untuk melakukan request data json
 function getStandings() {
-  if ('caches' in window) {
-    caches.match(base_url + "standing_url").then(function(response) {
-      if (response) {
-        response.json().then(function (data) {
-          var standingsHTML =  `
-                    <table style="font-size:14px;" class="responsive-table">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Logo</th>
-                          <th>CLUB</th>
-                          <th>PG</th>
-                          <th>W</th>
-                          <th>D</th>
-                          <th>L</th>
-                          <th>GF</th>
-                          <th>GA</th>
-                          <th>GD</th>
-                          <th>Pts</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                `;
-            data.standings["0"].table.forEach(function(item) {
-              standingsHTML += `
-                      <tr>
-                        <td>${item.position}</td>
-                        <td><a href="./team.html?id=${item.team.id}"><img style="width:20px;" src="${item.team.crestUrl}"></a></td>
-                        <td><a href="./team.html?id=${item.team.id}">${item.team.name}</a></td>
-                        <td>${item.playedGames}</td>
-                        <td>${item.won}</td>
-                        <td>${item.draw}</td>
-                        <td>${item.lost}</td>
-                        <td>${item.goalsFor}</td>
-                        <td>${item.goalsAgainst}</td>
-                        <td>${item.goalDifference}</td>
-                        <td>${item.points}</td>
-                      </tr>
-              `;
-          });
-          standingsHTML += `</tbody>
-                  </table>`;
-          document.getElementById("standings").innerHTML = standingsHTML;
-        })
-      }
-    })
-  }
   fetchApi(standing_url)
     .then(status)
     .then(json)
@@ -139,64 +92,6 @@ function getTeamById() {
   var idParam = urlParams.get("id");
 
   var team_id_url = `${base_url}teams/${idParam}`;
-
-  if ('caches' in window) {
-    caches.match(base_url + "team_id_url").then(function(response) {
-      if (response) {
-        response.json().then(function (data) {
-          var teamHTML = `
-      <div class="row">
-        <h4 class="light center grey-text text-darken-3" style="font-size:40px; font-weight:bold;"><img style="width:90px;" src="${data.crestUrl}"> <br>${data.name}</h4>
-              <p align="center">Nickname : ${data.shortName}<br>Address : ${data.address}<br>Founded : ${data.founded}<br>Club Colors : ${data.clubColors}<br>Venue : ${data.venue}</p>
-          <div class="col s12 m6 l6">
-            <div class="card-panel center" style="background-color: #0D47A1; color: white;">
-            <h5 style="font-weight:bold;">COMPETITIONS</h5>
-              <p>
-                  <ul>
-        `;
-        data.activeCompetitions.forEach(function(item) {
-        teamHTML += `
-                  <li>${item.name}</li>
-                    `;
-        });
-        teamHTML += `
-                  </ul>
-                </p>
-              </div>
-            </div>
-            <div class="col s12 m6 l6">
-            <div class="card-panel center">
-              <h5 style="font-size:25px; color:blue; font-weight:bold;">SQUAD</h5>
-              <table style="font-size:14px;" class="responsive-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Position</th>
-                </tr>
-              </thead>
-              <tbody>
-                    `;
-        data.squad.forEach(function(item) {
-        teamHTML += `
-                  <tr>
-                  <td>${item.name}</td>
-                  <td>${item.position}</td>
-                  </tr>
-                    `;
-        });
-        teamHTML += `
-
-            </div>
-          </div>
-        </div>
-                    `;
-      document.getElementById("body-content").innerHTML = teamHTML;
-      // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
-      resolve(data);
-        })
-      }
-    })
-  }
 
   fetchApi(team_id_url)
     .then(status)
