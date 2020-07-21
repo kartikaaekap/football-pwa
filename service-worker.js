@@ -36,7 +36,12 @@ self.addEventListener("fetch", function(event) {
     caches.match(event.request).then(function (cached) {
       if (cached) {
         return cached
-      }
+      }else {
+            caches.match(event.request, { ignoreSearch: true }).then(function(response) {
+                return response || fetch (event.request);
+            }
+        )
+    }
 
       return fetch(event.request).then(function(response) {
         const responseToCahce = response.clone()
