@@ -25,7 +25,7 @@
 
     <div class="container" id="body-content"></div>
     <div class="fixed-action-btn">
-      <a class="btn-floating btn-large red" id="save">
+      <a class="btn-floating btn-large red" id="save" onsubmit="save.disabled=true; return true;">
       <i class="large material-icons">save</i>
       </a>
     </div>
@@ -40,27 +40,29 @@
     <script src="js/db.js"></script>
 
     <script>
-      // REGISTER SERVICE WORKER
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function() {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .then(function() {
-              console.log("Pendaftaran ServiceWorker berhasil");
+        // REGISTER SERVICE WORKER
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                .then(function() {
+                    console.log('Pendaftaran ServiceWorker berhasil');
+                })
+                .catch(function(){
+                    console.log('Pendaftaran ServiceWorker gagal');
+                });
             })
-            .catch(function() {
-              console.log("Pendaftaran ServiceWorker gagal");
-            });
-        });
-      } else {
-        console.log("ServiceWorker belum didukung browser ini.");
-      }
+        } else {
+            console.log("ServiceWorker belum didukung browser ini.")
+        } 
 
       document.addEventListener("DOMContentLoaded", function() {
         var item = getTeamById();
         var save = document.getElementById("save");
         save.onclick = function () {
+        document.getElementById("save").style.visibility = "hidden";
         console.log("Tombol FAB di klik.");
+        var toastHTML = '<span>Successfully added the team to favorite</span><button onclick="M.Toast.getInstance(this.parentElement).dismiss()" class="btn-flat toast-action">Close</button>';
+        M.toast({html: toastHTML});
         item.then(function (team) {
             saveForLater(team);
         });
